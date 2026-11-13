@@ -41,7 +41,7 @@ Terms: **polygon** = drawn by hand; **tile** `f01_E…_N…` = 400 m stored imag
    ```
    Must end with `ALL PASS`.
 
-Optional: `pip install -e .` installs the package. It can then be imported from notebooks, and the short commands `woodsites-chips`, `woodsites-archive` and `woodsites-archive-ni` replace the long `python src\woodsites\...` lines below.
+Optional: `pip install -e .` installs the package. It can then be imported from notebooks, and the short commands `woodsites-chips`, `woodsites-archive` and `woodsites-archive-ni` replace the long `python src\woodsites\...` lines below. In the OSGeo4W Shell pip puts these commands into a user folder that is not on the search path (pip prints the folder). Add it for the current window with `set PATH=%PATH%;%APPDATA%\Python\Python312\Scripts`, or keep using the long commands, which always work.
 
 Most scripts print their own help: `python <script>.py --help`.
 

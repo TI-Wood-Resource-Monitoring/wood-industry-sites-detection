@@ -11,6 +11,7 @@ wood-industry-sites-detection/
 │   ├── module1_reference/    model-independent: images and polygons
 │   │   ├── imagery/          fetch_wms_chips.py  fetch_ni_cog_tiles.py  check_lgln_cog.py  check_lgln_stac.py
 │   │   └── labelling/        fill_new_polygons_qgis.py                       # runs in the QGIS console
+│   │                         (later: prefilter/)
 │   ├── module2_detection/    model-specific: replaceable as a whole
 │   │   └── dataset/          tile_and_chip.py  labels.py  raster.py  split.py  index.py  writers/
 │   │                         (later: training/, prediction/)

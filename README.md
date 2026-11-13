@@ -10,7 +10,7 @@ Identifying wood industry sites provides crucial information for monitoring the 
 
 The **main objective is the reliable identification and georeferencing of wood industry sites in Germany** (such as sawmills, pulp plants and panel plants) from aerial imagery. An object detection model (YOLO first) finds candidate logyards and industry sites in DOP20 imagery; people then confirm or reject the candidates in QGIS.
 
-**The deliverable is a reviewed, geo-referenced site register, not the model.** The model is the machinery that produces and updates the register. The compute module is replaceable, so other ML methods can be used and compared on the same holdout.
+**The deliverable is a reviewed, geo-referenced site register, not the model.** The model is the machinery that produces and updates the register. The detection module (Module 2) is replaceable as a whole, so other ML methods can be used and compared on the same holdout.
 
 ## How it is built
 
@@ -32,6 +32,7 @@ wood-industry-sites-detection/
 │   ├── module1_reference/    model-independent: images and polygons
 │   │   ├── imagery/          fetch_wms_chips.py  fetch_ni_cog_tiles.py  check_lgln_cog.py  check_lgln_stac.py
 │   │   └── labelling/        fill_new_polygons_qgis.py                       # runs in the QGIS console
+│   │                         (later: prefilter/)
 │   ├── module2_detection/    model-specific: replaceable as a whole
 │   │   └── dataset/          tile_and_chip.py  labels.py  raster.py  split.py  index.py  writers/
 │   │                         (later: training/, prediction/)
@@ -77,7 +78,7 @@ Then, in the OSGeo4W Shell or the conda environment (on Linux write the paths be
    python tests\test_tile_and_chip.py
    ```
    The output must end with `ALL PASS`. The tests use synthetic data and need no network and no QGIS.
-4. Optional: `pip install -e .` installs the package. It can then be imported from notebooks, and the short commands `woodsites-chips`, `woodsites-archive` and `woodsites-archive-ni` replace the long `python src\woodsites\...` lines.
+4. Optional: `pip install -e .` installs the package. It can then be imported from notebooks, and the short commands `woodsites-chips`, `woodsites-archive` and `woodsites-archive-ni` replace the long `python src\woodsites\...` lines. In the OSGeo4W Shell pip puts these commands into a user folder that is not on the search path (pip prints the folder). Add it for the current window with `set PATH=%PATH%;%APPDATA%\Python\Python312\Scripts`, or keep using the long commands, which always work.
 
 ## Usage overview
 
@@ -108,7 +109,7 @@ To continue the work you additionally need:
 - (b) access to the frozen image archive,
 - (c) the QGIS labelling project.
 
-These are handed over internally on request. Then enter their locations in your local `configs/config.toml`.
+These are handed over internally on request. Put them into `data/reference/` (see [`data/README.md`](data/README.md)) or enter their locations in your local `configs/config.toml`.
 
 ## Documentation
 
