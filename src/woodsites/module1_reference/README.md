@@ -42,5 +42,6 @@ Labelling rules and the field reference: [`docs/workflow.md`](../../../docs/work
 
 ## Planned
 
-`prefilter/` – which chips are worth looking at in a state-wide run (official land-use data).
-It is independent of the model, so it belongs here.
+`prefilter/` – stage 1 of the cascade: which chips are worth looking at in a state-wide run
+(chips in ATKIS industrial and commercial areas plus a buffer). It is independent of the model,
+so it belongs here; Module 2 only reads the resulting chip list.

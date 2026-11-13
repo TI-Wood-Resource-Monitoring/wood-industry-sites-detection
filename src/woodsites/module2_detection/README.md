@@ -11,7 +11,7 @@ first locally, later on a GPU VM or cluster.
 | `dataset/` | `tile_and_chip.py`: chips and labels, training **and** prediction mode (one script, two modes). Only `writers/yolo.py` knows the YOLO format | implemented |
 | `training/` | 2a · Training on known sites: split, model training, holdout test run | planned |
 | `training/yolo/` | YOLO as the first model; other methods go next to it | planned |
-| `prediction/` | 2b · Prediction Lower Saxony: prefilter, model prediction, `postprocess_merge.py` | planned |
+| `prediction/` | 2b · Prediction Lower Saxony: model prediction on the chips selected by Module 1's prefilter, `postprocess_merge.py` | planned |
 
 `tile_and_chip.py` sits above 2a and 2b on purpose: both must cut chips in exactly the same way.
 
@@ -38,7 +38,8 @@ Note: Ultralytics is licensed under AGPL-3.0; the licensing question is open.
 ## Planned: `prediction/` (2b · Lower Saxony, separate run)
 
 Planned content:
-- `prefilter_atkis.py` – stage 1: only chips in ATKIS industrial/commercial areas (+ buffer)
+- input: the list of chips to look at, written by the prefilter of Module 1 (it is independent
+  of the model, so it is not part of this module)
 - `predict.py` – stage 2: model prediction with a released model (see `freigabe.csv`)
 - `postprocess_merge.py` – detections from overlapping chips → map coordinates, merge
   duplicates and join fragments of large yards → `kandidaten_<lauf-id>.gpkg`
