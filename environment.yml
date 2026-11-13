@@ -1,0 +1,14 @@
+# Conda environment for machines without QGIS/OSGeo4W (GPU VM, cluster, Linux).
+# On the Windows laptop the OSGeo4W Shell already provides Python 3.12, GDAL and numpy.
+#   conda env create -f environment.yml
+#   conda activate woodsites
+#   pip install -e .
+name: woodsites
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - gdal>=3.8
+  - numpy
+  - pip
+# Training (later, GPU machine): add pytorch and ultralytics here once the versions are fixed.

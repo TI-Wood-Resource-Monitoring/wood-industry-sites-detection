@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "woodsites"
+version = "0.1.0"
+description = "Detection of wood industry sites and logyards in DOP20 aerial imagery"
+requires-python = ">=3.11"
+# GDAL (osgeo) is not listed: it comes with the OSGeo4W Shell / conda (see environment.yml).
+dependencies = ["numpy"]
+
+# Short commands after `pip install -e .` (optional; every script also runs directly with python).
+[project.scripts]
+woodsites-chips = "woodsites.module2_detection.dataset.tile_and_chip:main"
+woodsites-archive = "woodsites.module1_reference.imagery.fetch_wms_chips:main"
+woodsites-archive-ni = "woodsites.module1_reference.imagery.fetch_ni_cog_tiles:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -218,3 +218,75 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+
+# =============================================================================
+# Project rules (added): this repository holds code and documentation only.
+# Data (polygons, imagery, datasets, model weights, results) lives OUTSIDE the
+# repository; configs/config.toml points to it. Never committed, even by mistake.
+# =============================================================================
+
+# --- Local only -------------------------------------------------------------
+# your real paths (template: configs/config.example.toml)
+configs/config.toml
+# planning documents: local until it is decided what gets published
+planning/
+
+# --- Data: never in this repository -------------------------------------------
+*.gpkg
+*.gpkg-wal
+*.gpkg-shm
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+*.kml
+*.geojson
+*.tif
+*.tiff
+*.vrt
+*.png
+*.jpg
+*.jpeg
+*.csv
+*.qgz
+*.qgs
+*.qgz~
+*.qgs~
+*.pt
+*.pth
+*.onnx
+*.cache
+*.pptx
+*.docx
+*.xlsx
+*.pdf
+/datasets/
+/runs/
+/models/
+*.part
+
+# Editors / operating system
+.vscode/
+.idea/
+.Rhistory
+Thumbs.db
+desktop.ini
+~$*
+
+# Local AI notes until the planning-docs decision is made
+CLAUDE.md
+
+# Local data folder: everything ignored except its README
+/data/*
+!/data/README.md
+
+# Earlier README draft (contains a personal contact); a copy is in planning/old/
+README_sg_draft.md
+
+# Held back from the first commit until it is decided what is published
+# (remove a line here to publish that file):
+/docs/concept.md
+/docs/design-chipping.md
+/docs/architecture/

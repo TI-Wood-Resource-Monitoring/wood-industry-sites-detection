@@ -1,0 +1,41 @@
+# Template for config.toml – paths and settings for the woodsites scripts
+# (src/woodsites/module1_reference/imagery/*.py, src/woodsites/module2_detection/dataset/tile_and_chip.py).
+#
+# The paths below use the local data/ folder of the repository (see data/README.md). They are
+# relative to the folder the scripts are started from, i.e. the repository folder. Any of them
+# can be an absolute path instead, e.g. an image archive on a network drive.
+#
+# Copy this file to configs/config.toml (same folder) and fill in the paths for your
+# computer, or point the environment variable WOODSITES_CONFIG to your copy.
+# config.toml itself is not part of the repository.
+# Windows paths: keep the single quotes ('...'); then backslashes need no escaping.
+
+[paths]
+polygons_gpkg   = 'data\reference\dop20_polygons.gpkg'
+archive         = 'data\reference\archive'
+background_gpkg = 'data\reference\background_g01.gpkg'
+dataset_root    = 'data\detection\datasets'   # tile_and_chip.py output
+holdout_gpkg    = ''                        # empty = no holdout
+
+[background]
+share      = 0.10   # background chips per label chip (default number for "background")
+min_dist_m = 2000   # minimum distance from every polygon (all categories, also C), metres
+seed       = 1      # random seed: the same seed draws the same chips
+
+[tile_and_chip]
+holz_klein      = 'positive'     # positive (= like logyard_rough) | background | mask
+min_visible     = 0.5            # keep a box if >= 50 % of the polygon is inside the chip ...
+min_visible_m2  = 10000          # ... or if >= 1 ha of it is visible; otherwise grey it out
+mask_value      = 114            # grey RGB 114/114/114
+mask_grow_px    = 2              # mask grown by 2 px = 0.8 m
+min_box_px      = 4              # narrower boxes are masked instead
+max_mask_share  = 0.25           # chips with more grey are left out
+max_empty_share = 0.01           # chips with more white/black pixels are left out
+chip_status_ok  = ['vollständig']
+val_share       = 0.15
+seed            = 1
+
+[checks]
+# Test point for module1_reference/imagery/check_lgln_cog.py and check_lgln_stac.py (EPSG:25832, in Lower Saxony).
+# Optional: the point can also be given on the command line (python check_lgln_stac.py <E> <N>).
+# test_point = [<E>, <N>]

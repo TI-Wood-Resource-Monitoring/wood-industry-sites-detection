@@ -1,0 +1,8 @@
+# Same line endings for everyone (Windows laptops, Linux VMs/cluster)
+* text=auto
+*.py     text eol=lf
+*.md     text eol=lf
+*.toml   text eol=lf
+*.yml    text eol=lf
+*.drawio text eol=lf
+*.svg    text eol=lf
