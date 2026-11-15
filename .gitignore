@@ -229,6 +229,8 @@ __marimo__/
 # --- Local only -------------------------------------------------------------
 # your real paths (template: configs/config.example.toml)
 configs/config.toml
+# private table of the map servers (template: configs/wms_services.example.toml)
+configs/wms_services.toml
 # planning documents: local until it is decided what gets published
 planning/
 

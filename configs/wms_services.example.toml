@@ -1,0 +1,37 @@
+# Example of the server table for the image fetch.
+#
+# The real table is configs/wms_services.toml. It is private and not in git.
+# To create it: copy this file to configs/wms_services.toml and replace the
+# invented entry below by one entry per federal state.
+#
+# A WMS (web map service) is a map server that returns a picture for a
+# rectangle you ask for. This table says which server and which layer the
+# fetch script asks for each state.
+#
+# The file must be saved as UTF-8 (state names contain umlauts).
+
+# The name the script gives to every server it talks to, so that the operator
+# of a server can see who is asking. Free text.
+user_agent = "Example project (image archive fetch)"
+
+# One block per federal state. The text in quotes is the state name. It must be
+# spelled exactly as in the field `land` of the polygon file and in the column
+# `land` of manifest.csv.
+[services."Musterland"]
+
+# Address the picture request (GetMap) is sent to, without any "?..." request
+# part. This text is written into the manifest column `wms_url`.
+url = "https://wms.example.org/dop20/wms"
+
+# Name of the image layer on that server (manifest column `layer`).
+layer = "example_dop20_rgb"
+
+# Version of the WMS rules the server is addressed with: "1.3.0" or "1.1.1"
+# (manifest column `wms_version`). The two versions name some request
+# parameters differently, so the script must know which one to use.
+wms_version = "1.3.0"
+
+# Name of the layer that answers the question "when was this picture flown?"
+# (GetFeatureInfo; manifest column `info_layer`). Empty text "" if the server
+# has no such layer.
+info_layer = "example_dop20_info"
