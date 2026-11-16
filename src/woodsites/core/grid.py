@@ -16,6 +16,10 @@ stored exactly in a computer). Metres only appear where a position enters or
 leaves this file.
 
 Pure arithmetic: this file reads no file and asks no server.
+
+How to read the first line of a function: "a: int" says that a is a whole
+number, "-> str" says that text comes back. These notes are called type hints.
+Python itself does not enforce them; they are for readers and for checking tools.
 """
 
 import math
@@ -25,6 +29,7 @@ import math
 # because tile names and tile positions are worked out from them. That is why
 # they are fixed here and not in the config file.
 # ---------------------------------------------------------------------------
+EPSG = 25832             # number of the coordinate system both grids are defined in
 PIXEL_SIZE_M = 0.2       # one archive pixel covers 0.2 m x 0.2 m on the ground
 PIXELS_PER_METRE = 5     # the same fact as a whole number: 5 pixels = 1 m
 TILE_SIDE_M = 400        # side of a tile in metres
@@ -33,7 +38,7 @@ CHIP_SIDE_PX = 4096      # side of a chip in archive pixels (819.2 m x 5)
 CHIP_STEP_PX = 3072      # from one chip to the next, in archive pixels (614.4 m x 5)
 
 
-def tile_id(a, b):
+def tile_id(a: int, b: int) -> str:
     """Name of the tile in column a and row b.
 
     Input:  a, b - whole numbers, not negative.
@@ -52,7 +57,7 @@ def tile_id(a, b):
     return f"f01_E{easting:07d}_N{northing:07d}"
 
 
-def tile_bounds(a, b):
+def tile_bounds(a: int, b: int) -> tuple[int, int, int, int]:
     """Rectangle that the tile in column a and row b covers.
 
     Input:  a, b - whole numbers.
@@ -63,7 +68,7 @@ def tile_bounds(a, b):
     return (minx, miny, minx + TILE_SIDE_M, miny + TILE_SIDE_M)
 
 
-def chip_bounds(i, j):
+def chip_bounds(i: int, j: int) -> tuple[float, float, float, float]:
     """Rectangle that the chip in column i and row j covers.
 
     Input:  i, j - whole numbers.
@@ -81,7 +86,7 @@ def chip_bounds(i, j):
             right_px / PIXELS_PER_METRE, top_px / PIXELS_PER_METRE)
 
 
-def tile_indexes_under_chip_index(i):
+def tile_indexes_under_chip_index(i: int) -> list[int]:
     """Tile columns that lie under chip column i.
 
     The grid is the same in both directions, so the same function also gives
@@ -102,7 +107,7 @@ def tile_indexes_under_chip_index(i):
     return list(range(first_tile, last_tile + 1))
 
 
-def tiles_under_chip(i, j):
+def tiles_under_chip(i: int, j: int) -> list[tuple[int, int]]:
     """All tiles that lie under the chip in column i and row j.
 
     Input:  i, j - whole numbers.
@@ -116,7 +121,7 @@ def tiles_under_chip(i, j):
     return tiles
 
 
-def chip_indexes_near_interval(low_m, high_m):
+def chip_indexes_near_interval(low_m: float, high_m: float) -> list[int]:
     """Chip columns whose square touches a stretch along the east axis.
 
     The grid is the same in both directions, so the same function also gives
@@ -149,7 +154,7 @@ def chip_indexes_near_interval(low_m, high_m):
     return found
 
 
-def chips_near_box(minx, miny, maxx, maxy):
+def chips_near_box(minx: float, miny: float, maxx: float, maxy: float) -> list[tuple[int, int]]:
     """All chips whose square touches a rectangle.
 
     Input:  minx, miny, maxx, maxy - a rectangle in metres.

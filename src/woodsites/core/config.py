@@ -22,7 +22,7 @@ CONFIG_VARIABLE = "WOODSITES_CONFIG"
 DEFAULT_CONFIG_FILE = os.path.join("configs", "config.toml")
 
 
-def config_file_path():
+def config_file_path() -> str:
     """Say which settings file is to be used.
 
     Input:  nothing.
@@ -40,7 +40,7 @@ def config_file_path():
     return DEFAULT_CONFIG_FILE
 
 
-def read_config(path, needed_paths):
+def read_config(path: str, needed_paths: list[str]) -> dict:
     """Read the settings file and make sure the needed paths are in it.
 
     Input:  path         - path of the settings file (from config_file_path).

@@ -29,7 +29,7 @@ STATES = {
 }
 
 
-def state_code(land):
+def state_code(land: str) -> str:
     """Two-letter code of a federal state.
 
     Input:  land - the state name, spelled exactly as in STATES.
