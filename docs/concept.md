@@ -95,6 +95,84 @@ negative for training. New training labels are always drawn deliberately in Modu
 produced as a side effect of review. Human decisions are stored separately from model output,
 so a new run can never overwrite them.
 
+### Fixed core and brittle edges
+
+Some parts of the program change only when the project changes them. Other parts depend on
+something outside the project's control and can break without any change on our side. The
+two are kept apart, and the line between them is part of the design.
+
+| Side | What belongs to it | Who can change it |
+|---|---|---|
+| **Fixed** | the grids and IDs, the table of federal states, the rule which polygons count, the tile plan, the file layouts between modules | only the project |
+| **Brittle** | the map services: addresses, layer names, size limits, outages, new flights, the form of their flight-date answers | the service operators |
+| **Brittle** | files maintained by hand: the polygon file, the settings file | a person, by mistake |
+| **Brittle** | storage and network; data and software of third parties (land-use data for the prefilter, the detection framework) | others |
+
+An outside change cannot be prevented. The aim is that it is **noticed at the boundary,
+stops with a clear message, damages nothing that is stored, and is repaired in one place.**
+
+✅ Rules at the boundary:
+
+- **Few named places.** Code that talks to the outside is confined to small adapters. What
+  differs between services (address, layer, version) is a table in the settings, not code:
+  a changed address is an edit in the table.
+- **Checked at the door.** Everything that comes in is checked at once and turned into the
+  project's own fixed form: an error text instead of a picture, a picture of the wrong
+  size, a polygon without a site. Faulty input stops the run with a message that says what
+  to correct. Behind the door, the fixed core relies on that form and does not check again.
+- **A failure never damages what is stored.** A tile is written under a temporary name and
+  renamed only when complete; an existing tile is never overwritten; a failed tile is
+  logged and the run can be started again.
+- **Freeze what was seen.** The frozen archive (§5) is the main answer to brittle services.
+  Where an answer of a service has to be interpreted (the flight date), the raw answer is
+  stored next to the interpretation, so a mistake can be corrected without the service.
+
+### Protocols
+
+✅ **Every part that must be exchangeable is described by a protocol.** A protocol is a
+written agreement in the code: it lists what a part must offer (functions with their inputs
+and outputs) and nothing else. The rest of the program uses only the agreement and does not
+know which version it is working with. A new version is added next to the old one; the code
+that uses it stays untouched.
+
+| Exchangeable part | The agreement in one sentence | First version | Other versions |
+|---|---|---|---|
+| Polygon source | "give me the polygons that count, each with ID, site, state and shape" | the project's hand-drawn polygons | official land-use layers, other sources |
+| Image source | "give me the picture for this tile" | the state map services | other map services, image files read directly, the archive itself |
+| Detection method | "chips in, candidates out" | YOLO | any other method |
+
+- Protocols sit on the line between the fixed core and the brittle edges: each brittle part
+  is an adapter behind a protocol.
+- Between modules the agreement is a file layout ([`contracts/`](contracts/)); inside the
+  program it is a protocol. "Module 2 is replaceable as a whole" is the same idea at the
+  level of files.
+- A part that exists only once (the grid, the IDs, the table of states) gets no protocol.
+  A protocol without a second version in sight only adds a layer.
+- The work stays in short functions with one job each, with stated inputs and outputs. The
+  classes that a protocol needs are thin wrappers around them.
+
+⬜ Whether a checking tool verifies the stated inputs, outputs and protocols automatically.
+
+### Tests
+
+✅ **Program and tests are never mixed.** The program lives under `src/`, all tests under
+`tests/`. One test file belongs to one program file (`tests/test_grid.py` tests `grid.py`)
+and holds several small tests. One command runs all of them.
+
+- ✅ **Unit tests use invented data only.** They need no network, no archive and no GPU and
+  run in seconds on any computer. They cover the fixed core completely, including the proof
+  that the grid maths gives the same tiles as the plan the existing archive was built with.
+- ✅ **The brittle side is tested with stand-ins.** Because the program only knows the
+  protocol, a stand-in can take the place of a real service: an image source that returns
+  an invented picture, a polygon source that returns invented polygons. This tests how the
+  program reacts to the outside (an error text instead of a picture, an interrupted run)
+  without contacting a service.
+- ✅ **Tests that need the project's own data** (the polygon file, the archive) live in the
+  same folder and skip themselves on a computer where that data is not available. The same
+  command therefore tests everything that can be tested where it runs.
+- ✅ **Whether an outside service still behaves as expected is not a unit test.** A separate
+  service check asks the services before a fetch.
+
 ## 5. Key design decisions
 
 ### Imagery
@@ -208,6 +286,8 @@ with checksums.
 | Large yards split at chip borders | fragment-joining merge; overlap is a parameter |
 | Training and prediction pixels differ | pixel comparison; if needed, same source for both |
 | State image services are down at times | resumable fetch; the archive is frozen once fetched |
+| An outside service or data source changes its structure | brittle parts are adapters behind protocols; input is checked at the boundary; a service check runs before a fetch (§4) |
+| A change to the program breaks something that worked | unit tests for the fixed core, run with one command before every commit (§4) |
 | Framework licence | see §6 |
 
 ## 9. Future vision
@@ -240,3 +320,12 @@ frequency.
 - **WMS** – a web service that renders any requested map rectangle as an image.
 - **Manifest** – the table recording for every archived tile where and when it came from and
   its checksum.
+- **Fixed core / brittle edge** – the parts only the project changes / the parts that depend
+  on services, files or software outside its control (§4).
+- **Protocol** – a written agreement in the code that lists what an exchangeable part must
+  offer; the rest of the program uses only the agreement.
+- **Adapter** – the small piece of code that connects one outside source to a protocol.
+- **Unit test** – a small permanent test of one function with invented data; all unit tests
+  run with one command.
+- **Stand-in** – an invented version of an exchangeable part (for example an image source
+  that returns a grey picture), used to test the program without the real service.
