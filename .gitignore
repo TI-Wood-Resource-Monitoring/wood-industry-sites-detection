@@ -269,6 +269,7 @@ planning/
 
 # Editors / operating system
 .vscode/
+*.code-workspace
 .idea/
 .Rhistory
 Thumbs.db
