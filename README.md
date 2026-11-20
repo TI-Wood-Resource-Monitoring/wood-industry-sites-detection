@@ -2,9 +2,9 @@
 
 > **Automated detection of wood industry sites using remote sensing and machine learning.**
 
-[![Status: Work in Progress](https://shields.io)](#)
-[![License: MIT](https://shields.io)](LICENSE)
-[![Python Version](https://shields.io)](https://python.org)
+[![Status: Work in Progress](https://img.shields.io/badge/status-work%20in%20progress-orange)](#)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue)](https://www.python.org)
 
 *Note: This repository is at the **project start phase**. The code, structure, pipelines, and documentation are under active initial development and are subject to significant changes.*
 
@@ -18,10 +18,15 @@ Identifying wood industry sites denotes crucial information for monitoring the t
 The **main objective is the reliable identification and georeferencing of wood industry sites in Germany** from satellite/aerial imagery.
 
 ### Planned Key Features
-* **Multi-Source Ingestion:** high-resolution aerial photography ...
-* **Automated Preprocessing:** Image tiling, chipping …
-* **Robust ML Models:** State-of-the-art computer vision models optimized for geospatial object detection/segmentation, incl. YOLO ...
-* **Geospatial Export:** Outputs shapefiles, …
+* **Acquisition:** fetch high-resolution aerial imagery from WMS services for tiles planned from hand-drawn site polygons; store them as GeoTIFF tiles with metadata.
+* **Preparation:** cut tiles into chips and convert them into the format the model needs.
+* **Training:** train computer vision models for geospatial object detection, e.g. YOLO.
+* **Prediction:** apply trained models to new areas and output geo-referenced detections as GIS layers.
+* **Review:** people confirm or reject detections before they are used.
+
+**Architecture:** how the modules work together and how the code is structured is described in
+[docs/concept.md](docs/concept.md), [docs/oop-roles.md](docs/oop-roles.md) and the
+*v3-architecture* tab of [docs/code-architecture.drawio](docs/code-architecture.drawio).
 
 ---
 
@@ -30,24 +35,29 @@ The **main objective is the reliable identification and georeferencing of wood i
 
 ```text
 wood-industry-sites-detection/
-├── data/                       # Placeholder for data directories [gitignored]
-│   ├── raw/                    # Target for original satellite/aerial imagery
-│   ├── processed/              # Target for tiled, and cleaned datasets
-│   └── final/                  # Target for Geotiff data for model handover
-├── notebooks/                  # Jupyter notebooks
-│   ├── concept/                # Project concept
-│   └── dev/                    # Developing and prototyping [gitignored]
-├── src/                        # Core source code
-│   ├── data_processing/        # Data preparation for modelling
-│   ├── models/                 # Model architectures and, training routines
-│   └── prediction/             # Prediction scripts and, geospatial post-processing
-├── configs/                    # Hyperparameters
-├── authentification/           # Information for authentication and, data paths [gitignored]
-├── tests/                      # Unit tests for the data pipeline and models
+├── data/                       # Local data, never committed [gitignored]
+│   ├── raw/                    # Module 1 output: polygon GeoPackage, GeoTIFF tiles, metadata.db
+│   ├── processed/              # Module 2 output: training/ and prediction/ data in model format
+│   ├── weights/                # Module 3 output: trained models
+│   ├── results/                # Module 4 output: detections
+│   └── review/                 # Module 5 output: human decisions on the results
+├── docs/                       # Architecture concept, coding roles, architecture diagram
+├── src/                        # Source code, one package per module
+│   ├── acquisition/            # Module 1: fetch and store imagery
+│   ├── preparation/            # Module 2: chips and model input
+│   ├── training/               # Module 3: model training
+│   ├── prediction/             # Module 4: detection on new areas
+│   └── review/                 # Module 5: confirm or reject detections
+├── configs/                    # Settings: paths, WMS access, logging
+├── authentification/           # Credentials, e.g. WMS account and password [gitignored]
+├── logs/                       # One log file per module [gitignored]
+├── tests/                      # Unit tests
 ├── requirements.txt            # Python dependencies
 ├── LICENSE                     # MIT License
 └── README.md                   # Project documentation
 ```
+
+The package path is still open: flat as shown, or below a common package (e.g. `src/woodsites/`); see [concept.md §5](docs/concept.md#5-open-decisions).
 
 ---
 
@@ -60,7 +70,7 @@ wood-industry-sites-detection/
 ### Installation (Initial Setup)
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com
+   git clone https://github.com/TI-Wood-Resource-Monitoring/wood-industry-sites-detection.git
    cd wood-industry-sites-detection
    ```
 
@@ -79,19 +89,31 @@ wood-industry-sites-detection/
 
 ## 🚀 Usage (Draft Workflows)
 
-### 1. Data Pipeline & Preprocessing
+### 1. Acquisition
+Plans tiles from the site polygons, fetches each tile from the WMS, saves it as a GeoTIFF and records it in `metadata.db`. Each run ends with a summary (fetched, skipped, failed).
+```bash
+# Workflow example to be defined
+```
+
+### 2. Preparation
 …
 ```bash
 # Workflow example to be defined
 ```
 
-### 2. Training the Model
+### 3. Training
 …
 ```bash
 # Workflow example to be defined
 ```
 
-### 3. Predictions
+### 4. Prediction
+…
+```bash
+# Workflow example to be defined
+```
+
+### 5. Review
 …
 ```bash
 # Workflow example to be defined
@@ -102,6 +124,13 @@ wood-industry-sites-detection/
 ## 📊 Model Performance & Results
 Summary of the model metrics:
 … *(Evaluation benchmarks will be added once initial models are trained)*
+
+---
+
+## 🗺️ Roadmap
+1. **Architecture:** design of the system and of Module 1 (Acquisition). *In progress.*
+2. **Module 1 · Acquisition:** build and test. *Planned.*
+3. **Modules 2–5:** plan and build, one after another. *Later.*
 
 ---
 

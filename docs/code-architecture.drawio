@@ -1,0 +1,619 @@
+<mxfile host="65bd71144e">
+    <diagram id="v2" name="v3-architecture">
+        <mxGraphModel dx="2333" dy="2013" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1920" pageHeight="1400" math="0" shadow="0">
+            <root>
+                <mxCell id="v0"/>
+                <mxCell id="v1" parent="v0"/>
+                <mxCell id="v_mod1" parent="v1" style="rounded=1;arcSize=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#6C8EBF;dashed=1;strokeWidth=2;verticalAlign=top;align=right;spacingRight=12;spacingTop=2;fontStyle=1;fontSize=14;fontColor=#6C8EBF;" value="Module 1 · Acquisition · src/acquisition/" vertex="1">
+                    <mxGeometry height="957" width="1552" x="-16" y="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_p1" parent="v1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#BBBBBB;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontStyle=1;fontSize=16;fontColor=#555555;" value="Phase 1 · Setup (once)" vertex="1">
+                    <mxGeometry height="214" width="1520" y="161" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_p2" parent="v1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#BBBBBB;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontStyle=1;fontSize=16;fontColor=#555555;" value="Phase 2 · Execution (per run)" vertex="1">
+                    <mxGeometry height="650" width="1520" y="421" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_p3" parent="v1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#BBBBBB;dashed=1;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontStyle=1;fontSize=16;fontColor=#888888;" value="Module 2 · Preparation · src/preparation/ (later)" vertex="1">
+                    <mxGeometry height="190" width="1840" y="1120" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_t" parent="v1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=40;" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;&lt;b&gt;Code Architecture v3: tile planning and data repository&lt;/b&gt;&lt;/font&gt;" vertex="1">
+                    <mxGeometry height="60" width="1100" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_st" parent="v1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=22;" value="Based on docs/sketchboard.txt: plan tiles from polygons, then fetch, georeference and save each tile" vertex="1">
+                    <mxGeometry height="40" width="1100" y="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_lg" parent="v1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=13;" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;&lt;b&gt;Legend&lt;/b&gt;&lt;br&gt;→ solid: calls&lt;br&gt;⇢ dashed: creates&lt;br&gt;Line without arrowhead: implements protocol&lt;br&gt;Unfilled frame: protocol&lt;br&gt;Cylinder: data on disk&lt;br&gt;Grey dashed: later, not part of module 1&lt;br&gt;⓪–③: order of execution&lt;/font&gt;" vertex="1">
+                    <mxGeometry height="290" width="300" x="1580" y="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_cfg" parent="v1" style="shape=document;boundedLbl=1;size=0.2;whiteSpace=wrap;html=1;fontSize=13;fillColor=#FFFFFF;strokeColor=#666666;" value="&lt;b&gt;config&lt;/b&gt;&lt;br&gt;Settings&lt;br&gt;(paths, WMS URL,&lt;br&gt;log_file, log_overwrite)" vertex="1">
+                    <mxGeometry height="80" width="200" x="24" y="192" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_auth" parent="v1" style="shape=document;boundedLbl=1;size=0.2;whiteSpace=wrap;html=1;fontSize=13;fillColor=#F8CECC;strokeColor=#B85450;" value="&lt;b&gt;authentification/&lt;/b&gt;&lt;br&gt;credentials per WMS service&lt;br&gt;(account, password)&lt;br&gt;git-ignored" vertex="1">
+                    <mxGeometry height="82" width="200" x="24" y="284" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e23" edge="1" parent="v1" source="v_auth" target="v_main" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.4;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" value="read">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_main" parent="v1" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;fillColor=#FFFFFF;strokeColor=#666666;" value="&lt;b&gt;main&lt;/b&gt;&lt;br&gt;Entry point&lt;br&gt;read_settings()&lt;br&gt;configure_logging()" vertex="1">
+                    <mxGeometry height="100" width="200" x="300" y="235" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_log" parent="v1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=13;fillColor=#FFFFFF;strokeColor=#666666;" value="&lt;b&gt;logs/acquisition.log&lt;/b&gt;&lt;br&gt;git-ignored" vertex="1">
+                    <mxGeometry height="90" width="200" x="40" y="465" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_xcut" parent="v1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=#EEEEEE;strokeColor=#999999;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" value="&lt;b&gt;Cross-cutting · logging&lt;/b&gt; (no arrows)&lt;br&gt;• every module: logger = getLogger(__name__)&lt;br&gt;• set up once in main (console INFO, file DEBUG)&lt;br&gt;• log_overwrite: True → mode &quot;w&quot;, False → append&lt;br&gt;• log or raise, not both; no secrets&lt;br&gt;• password: authentification/ → Settings (repr=False) → WmsClient" vertex="1">
+                    <mxGeometry height="150" width="360" x="16" y="610" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e22" edge="1" parent="v1" source="v_main" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=0.3;exitY=0.95;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="v_log" value="writes (FileHandler, w / a)">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="360" y="400"/>
+                            <mxPoint x="140" y="400"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v_fac" parent="v1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#FFE0C7;strokeColor=#D79B00;" value="&lt;b&gt;factory&lt;/b&gt;&lt;br&gt;create_coordinator()&lt;br&gt;creates all instances" vertex="1">
+                    <mxGeometry height="100" width="232" x="1224" y="235" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_coord" parent="v1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#DAE8FC;strokeColor=#6C8EBF;" value="&lt;b&gt;coordinator&lt;/b&gt;&lt;br&gt;ImageAcquisitionCoordinator.run()&lt;br&gt;controls the order&lt;br&gt;knows only protocols&lt;br&gt;&lt;br&gt;⓪ plan once&lt;br&gt;then for each tile in tile_list:&lt;br&gt;① fetch · ② georeference · ③ save" vertex="1">
+                    <mxGeometry height="330" width="290" x="460" y="590" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_note" parent="v1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=13;fontColor=#555555;" value="&lt;b&gt;Terms&lt;/b&gt;&lt;br&gt;chip: selected image detail&lt;br&gt;tile: image available on the WMS server" vertex="1">
+                    <mxGeometry height="70" width="420" x="16" y="960" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_psrc" parent="v1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=none;strokeColor=#333333;strokeWidth=2;" value="Protocol&lt;br&gt;&lt;b&gt;PolygonSource&lt;/b&gt;" vertex="1">
+                    <mxGeometry height="90" width="240" x="920" y="455" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_plan" parent="v1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=#D5E8D4;strokeColor=#82B366;" value="&lt;b&gt;function&lt;/b&gt; plan_tiles() · grid.py&lt;br&gt;filter polygons · index chips&lt;br&gt;chips in polygons · chips in tiles&lt;br&gt;→ tile_list" vertex="1">
+                    <mxGeometry height="110" width="240" x="920" y="575" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_isrc" parent="v1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=none;strokeColor=#333333;strokeWidth=2;" value="Protocol&lt;br&gt;&lt;b&gt;ImageSource&lt;/b&gt;" vertex="1">
+                    <mxGeometry height="90" width="240" x="920" y="715" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_geo" parent="v1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#D5E8D4;strokeColor=#82B366;" value="&lt;b&gt;function&lt;/b&gt;&lt;br&gt;to_geotiff()&lt;br&gt;georeferences image" vertex="1">
+                    <mxGeometry height="90" width="240" x="920" y="835" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_istore" parent="v1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=none;strokeColor=#333333;strokeWidth=2;" value="Protocol&lt;br&gt;&lt;b&gt;ImageStore&lt;/b&gt;" vertex="1">
+                    <mxGeometry height="90" width="240" x="920" y="955" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_pf" parent="v1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=#FFF2CC;strokeColor=#D6B656;" value="&lt;b&gt;repository&lt;/b&gt; PolygonFile&lt;br&gt;polygons.py&lt;br&gt;reads GeoPackage, technical checks" vertex="1">
+                    <mxGeometry height="90" width="232" x="1224" y="455" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_wms" parent="v1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=#FFF2CC;strokeColor=#D6B656;" value="&lt;b&gt;adapter&lt;/b&gt; WmsClient (one per service)&lt;br&gt;__init__(url, account, password)&lt;br&gt;fetch(tile) → RawImage&lt;br&gt;auth per request, never in URL or log" vertex="1">
+                    <mxGeometry height="90" width="232" x="1224" y="715" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_fis" parent="v1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=#FFF2CC;strokeColor=#D6B656;" value="&lt;b&gt;repository&lt;/b&gt; FileImageStore&lt;br&gt;save(GeoTIFF) → path&lt;br&gt;adds a row to metadata.db" vertex="1">
+                    <mxGeometry height="90" width="232" x="1224" y="955" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_gpkg" parent="v1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=12;fontSize=13;fillColor=#FFFFFF;strokeColor=#666666;" value="&lt;b&gt;data/raw/geopkg/&lt;/b&gt;&lt;br&gt;polygon GeoPackage&lt;br&gt;drawn by hand" vertex="1">
+                    <mxGeometry height="110" width="220" x="1600" y="445" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_srv" parent="v1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fontSize=14;fillColor=#FFFFFF;strokeColor=#666666;" value="&lt;b&gt;WMS server&lt;/b&gt;&lt;br&gt;external" vertex="1">
+                    <mxGeometry height="110" width="220" x="1600" y="705" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_img" parent="v1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=12;fontSize=13;fillColor=#FFFFFF;strokeColor=#666666;" value="&lt;b&gt;data/raw/&lt;/b&gt;&lt;br&gt;images/ (*.tif only)&lt;br&gt;metadata.db (image ↔ polygon, meta info)" vertex="1">
+                    <mxGeometry height="110" width="220" x="1600" y="945" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_prep" parent="v1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=none;strokeColor=#999999;dashed=1;fontColor=#888888;" value="&lt;b&gt;preparation&lt;/b&gt;&lt;br&gt;not built&lt;br&gt;prepares data for the model&lt;br&gt;(e.g. YOLO)" vertex="1">
+                    <mxGeometry height="100" width="232" x="1224" y="1175" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_proc" parent="v1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=12;fontSize=13;fillColor=#FFFFFF;strokeColor=#999999;dashed=1;fontColor=#888888;" value="&lt;b&gt;data/processed/&lt;/b&gt;&lt;br&gt;training/ · prediction/" vertex="1">
+                    <mxGeometry height="110" width="220" x="1600" y="1170" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e1" edge="1" parent="v1" source="v_cfg" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="v_main" value="read">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e3" edge="1" parent="v1" source="v_main" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="v_fac" value="create_coordinator(settings)&lt;br&gt;(WMS URL, account, password, data paths)&lt;br&gt;· receives ready coordinator">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e21" edge="1" parent="v1" source="v_fac" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;dashed=1;exitX=0;exitY=0.98;exitDx=0;exitDy=0;entryX=0.8;entryY=0;entryDx=0;entryDy=0;" target="v_coord" value="creates (injects the 3 parts)">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="692" y="333"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v_e4" edge="1" parent="v1" source="v_main" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="v_coord" value="run() → RunReport · per run">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e5" edge="1" parent="v1" source="v_coord" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="v_psrc" value="⓪ read_polygons() → polygons">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e6" edge="1" parent="v1" source="v_coord" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.12;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="v_plan" value="⓪ plan_tiles(polygons) → tile_list">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e7" edge="1" parent="v1" source="v_coord" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.515;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="v_isrc" value="① fetch(tile) → RawImage">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e8" edge="1" parent="v1" source="v_coord" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.879;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="v_geo" value="② RawImage → GeoTIFF">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e9" edge="1" parent="v1" source="v_coord" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="v_istore" value="③ save(GeoTIFF)">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e10" edge="1" parent="v1" source="v_pf" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="v_psrc" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e11" edge="1" parent="v1" source="v_wms" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="v_isrc" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e12" edge="1" parent="v1" source="v_fis" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="v_istore" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e13" edge="1" parent="v1" source="v_fac" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="v_pf" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e14" edge="1" parent="v1" source="v_fac" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;dashed=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" target="v_wms" value="">
+                    <mxGeometry relative="1" x="-0.1703" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1480" y="310"/>
+                            <mxPoint x="1480" y="690"/>
+                            <mxPoint x="1398" y="690"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v_e15" edge="1" parent="v1" source="v_fac" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;dashed=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" target="v_fis" value="">
+                    <mxGeometry relative="1" x="-0.0973" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1480" y="310"/>
+                            <mxPoint x="1480" y="930"/>
+                            <mxPoint x="1398" y="930"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="v_e16" edge="1" parent="v1" source="v_pf" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="v_gpkg" value="reads (GDAL)">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e17" edge="1" parent="v1" source="v_wms" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="v_srv" value="GetMap · HTTP + auth">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e18" edge="1" parent="v1" source="v_fis" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="v_img" value="writes">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e19" edge="1" parent="v1" source="v_img" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;strokeColor=#999999;dashed=1;fontColor=#888888;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="v_prep" value="reads data/raw">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="v_e20" edge="1" parent="v1" source="v_prep" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;strokeColor=#999999;dashed=1;fontColor=#888888;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="v_proc" value="writes">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_frame" parent="v1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#BBBBBB;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontStyle=1;fontSize=16;fontColor=#555555;" value="Roles &amp;amp; colours" vertex="1">
+                    <mxGeometry height="242" width="1840" y="1340" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_s0" parent="v1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=#FFE0C7;strokeColor=#D79B00;" value="Factory" vertex="1">
+                    <mxGeometry height="48" width="150" x="20" y="1384" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_t0" parent="v1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="builds all objects once and wires them together" vertex="1">
+                    <mxGeometry height="48" width="280" x="180" y="1384" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_s1" parent="v1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;" value="Coordinator" vertex="1">
+                    <mxGeometry height="48" width="150" x="475" y="1384" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_t1" parent="v1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="controls the order of steps; knows only protocols" vertex="1">
+                    <mxGeometry height="48" width="280" x="635" y="1384" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_s2" parent="v1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=#D5E8D4;strokeColor=#82B366;" value="Function" vertex="1">
+                    <mxGeometry height="48" width="150" x="930" y="1384" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_t2" parent="v1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="business logic: &lt;i&gt;what&lt;/i&gt; is done with the data; pure in → out" vertex="1">
+                    <mxGeometry height="48" width="280" x="1090" y="1384" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_s3" parent="v1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=#FFF2CC;strokeColor=#D6B656;" value="Adapter / repository" vertex="1">
+                    <mxGeometry height="48" width="150" x="1385" y="1384" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_t3" parent="v1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="I/O: &lt;i&gt;where and how&lt;/i&gt; data is read or written (disk, WMS)" vertex="1">
+                    <mxGeometry height="48" width="280" x="1545" y="1384" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_s4" parent="v1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=none;strokeColor=#333333;strokeWidth=2;" value="Protocol" vertex="1">
+                    <mxGeometry height="48" width="150" x="20" y="1448" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_t4" parent="v1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="contract (a type): describes methods, contains no code" vertex="1">
+                    <mxGeometry height="48" width="280" x="180" y="1448" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_s5" parent="v1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;shape=document;boundedLbl=1;size=0.2;fillColor=#FFFFFF;strokeColor=#666666;" value="Config" vertex="1">
+                    <mxGeometry height="48" width="150" x="475" y="1448" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_t5" parent="v1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="settings file" vertex="1">
+                    <mxGeometry height="48" width="280" x="635" y="1448" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_s6" parent="v1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;ellipse;fillColor=#FFFFFF;strokeColor=#666666;" value="Entry point" vertex="1">
+                    <mxGeometry height="48" width="150" x="930" y="1448" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_t6" parent="v1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="main: reads config, calls factory, starts the run" vertex="1">
+                    <mxGeometry height="48" width="280" x="1090" y="1448" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_s7" parent="v1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;ellipse;shape=cloud;fillColor=#FFFFFF;strokeColor=#666666;" value="External system" vertex="1">
+                    <mxGeometry height="48" width="150" x="1385" y="1448" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_t7" parent="v1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="e.g. WMS server" vertex="1">
+                    <mxGeometry height="48" width="280" x="1545" y="1448" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_s8" parent="v1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;shape=cylinder3;boundedLbl=1;size=8;fillColor=#FFFFFF;strokeColor=#666666;" value="Data on disk" vertex="1">
+                    <mxGeometry height="48" width="150" x="20" y="1512" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_t8" parent="v1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="GeoPackage, images, metadata.db" vertex="1">
+                    <mxGeometry height="48" width="280" x="180" y="1512" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_s9" parent="v1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=none;strokeColor=#999999;dashed=1;fontColor=#888888;" value="later" vertex="1">
+                    <mxGeometry height="48" width="150" x="475" y="1512" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_t9" parent="v1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="later, not part of module 1" vertex="1">
+                    <mxGeometry height="48" width="280" x="635" y="1512" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_s10" parent="v1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;shape=document;boundedLbl=1;size=0.2;fillColor=#F8CECC;strokeColor=#B85450;" value="Credentials" vertex="1">
+                    <mxGeometry height="48" width="150" x="930" y="1512" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_v2_t10" parent="v1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="authentification/: account, password per WMS service; git-ignored" vertex="1">
+                    <mxGeometry height="48" width="280" x="1090" y="1512" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="current" name="v2-architecture">
+        <mxGraphModel dx="1871" dy="1948" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1920" pageHeight="1400" math="0" shadow="0">
+            <root>
+                <mxCell id="c0"/>
+                <mxCell id="c1" parent="c0"/>
+                <mxCell id="c_p1" parent="c1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#BBBBBB;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontStyle=1;fontSize=16;fontColor=#555555;" value="Phase 1 · Setup (once)" vertex="1">
+                    <mxGeometry height="214" width="1520" y="161" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_p2" parent="c1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#BBBBBB;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontStyle=1;fontSize=16;fontColor=#555555;" value="Phase 2 · Execution (per run)" vertex="1">
+                    <mxGeometry height="720" width="1520" y="421" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_sub" parent="c1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=15;fontStyle=1;fontColor=#555555;" value="Tile planning: exists in the code, not in the flowchart" vertex="1">
+                    <mxGeometry height="30" width="700" x="16" y="880" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_t" parent="c1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=40;" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;&lt;b&gt;Current code (18 Nov 2026) compared with the flowchart&lt;/b&gt;&lt;/font&gt;" vertex="1">
+                    <mxGeometry height="60" width="1050" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_st" parent="c1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=22;" value="Tile planning is built and tested; the image fetch of the flowchart is not built yet" vertex="1">
+                    <mxGeometry height="70" width="1050" y="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_lg" parent="c1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=13;" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;Legend&lt;/b&gt;&lt;br&gt;Coloured box, solid border: exists in the code today&lt;br&gt;Grey dashed box: in the flowchart, not built yet&lt;br&gt;Purple dashed box: in the fetch plan, not in the flowchart&lt;br&gt;→ solid: calls &amp;nbsp;·&amp;nbsp; ⇢ grey dashed: planned call&lt;br&gt;Line without arrowhead: implements protocol&lt;/font&gt;" vertex="1">
+                    <mxGeometry height="150" width="760" x="1080" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_cfg" parent="c1" style="shape=document;boundedLbl=1;size=0.2;whiteSpace=wrap;html=1;fontSize=14;fillColor=#FFFFFF;strokeColor=#666666;" value="&lt;b&gt;config&lt;/b&gt;&lt;br&gt;core/config.py&lt;br&gt;read_config() → dict" vertex="1">
+                    <mxGeometry height="100" width="200" x="24" y="235" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_main" parent="c1" style="ellipse;whiteSpace=wrap;html=1;fontSize=13;fillColor=none;strokeColor=#999999;dashed=1;fontColor=#888888;" value="&lt;b&gt;main&lt;/b&gt;&lt;br&gt;not built&lt;br&gt;fetch_tiles_wms.py, step 5" vertex="1">
+                    <mxGeometry height="100" width="220" x="300" y="235" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_fac" parent="c1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=none;strokeColor=#999999;dashed=1;fontColor=#888888;" value="&lt;b&gt;factory&lt;/b&gt;&lt;br&gt;not built&lt;br&gt;(main is planned to pick the parts)" vertex="1">
+                    <mxGeometry height="100" width="232" x="1224" y="235" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e1" edge="1" parent="c1" source="c_cfg" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;strokeColor=#999999;dashed=1;fontColor=#888888;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="c_main" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e2" edge="1" parent="c1" source="c_main" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;strokeColor=#999999;dashed=1;fontColor=#888888;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="c_fac" value="planned">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_coord" parent="c1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=none;strokeColor=#999999;dashed=1;fontColor=#888888;" value="&lt;b&gt;coordinator&lt;/b&gt;&lt;br&gt;not built&lt;br&gt;planned: tile_fetch.py&lt;br&gt;fetch_one_tile, fetch_missing_tiles&lt;br&gt;(steps 9, 11)" vertex="1">
+                    <mxGeometry height="150" width="290" x="460" y="605" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_isrc" parent="c1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=none;strokeColor=#999999;dashed=1;fontColor=#888888;strokeWidth=2;" value="Protocol &lt;b&gt;ImageSource&lt;/b&gt;&lt;br&gt;not built (steps 6–9)" vertex="1">
+                    <mxGeometry height="90" width="240" x="920" y="515" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_geo" parent="c1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=none;strokeColor=#999999;dashed=1;fontColor=#888888;" value="&lt;b&gt;function&lt;/b&gt; to_geotiff()&lt;br&gt;not built&lt;br&gt;planned: write_geotiff, step 8" vertex="1">
+                    <mxGeometry height="90" width="240" x="920" y="635" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_istore" parent="c1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=none;strokeColor=#999999;dashed=1;fontColor=#888888;strokeWidth=2;" value="Protocol &lt;b&gt;ImageStore&lt;/b&gt;&lt;br&gt;not built, not in the plan yet" vertex="1">
+                    <mxGeometry height="90" width="240" x="920" y="755" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_wms" parent="c1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=none;strokeColor=#999999;dashed=1;fontColor=#888888;" value="&lt;b&gt;adapter&lt;/b&gt; WmsClient&lt;br&gt;not built&lt;br&gt;planned: wms.py, steps 6–7" vertex="1">
+                    <mxGeometry height="90" width="232" x="1224" y="440" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_fis" parent="c1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=none;strokeColor=#999999;dashed=1;fontColor=#888888;" value="&lt;b&gt;repository&lt;/b&gt; FileImageStore&lt;br&gt;not built&lt;br&gt;planned: tile_file.py + manifest, step 8" vertex="1">
+                    <mxGeometry height="90" width="232" x="1224" y="755" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_srv" parent="c1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fontSize=14;fillColor=#FFFFFF;strokeColor=#666666;" value="&lt;b&gt;WMS server&lt;/b&gt;&lt;br&gt;external" vertex="1">
+                    <mxGeometry height="110" width="220" x="1600" y="505" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e3" edge="1" parent="c1" source="c_main" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;strokeColor=#999999;dashed=1;fontColor=#888888;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="c_coord" value="run(planned tile) · planned">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e4" edge="1" parent="c1" source="c_coord" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;strokeColor=#999999;dashed=1;fontColor=#888888;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="c_isrc" value="① fetch">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e5" edge="1" parent="c1" source="c_coord" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;strokeColor=#999999;dashed=1;fontColor=#888888;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="c_geo" value="②">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e6" edge="1" parent="c1" source="c_coord" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;strokeColor=#999999;dashed=1;fontColor=#888888;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="c_istore" value="③ save">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e7" edge="1" parent="c1" source="c_wms" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;strokeColor=#999999;dashed=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="c_isrc" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e8" edge="1" parent="c1" source="c_fis" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;strokeColor=#999999;dashed=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="c_istore" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e9" edge="1" parent="c1" source="c_wms" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;strokeColor=#999999;dashed=1;fontColor=#888888;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="c_srv" value="GetMap · not yet">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_tests" parent="c1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#FFFFFF;strokeColor=#666666;" value="&lt;b&gt;tests/&lt;/b&gt;&lt;br&gt;71 unit tests&lt;br&gt;today the only caller&lt;br&gt;of this code" vertex="1">
+                    <mxGeometry height="110" width="200" x="24" y="935" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_plan" parent="c1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#D5E8D4;strokeColor=#82B366;" value="&lt;b&gt;function / service&lt;/b&gt;&lt;br&gt;plan_tiles()&lt;br&gt;core/tile_plan.py&lt;br&gt;polygons → chips → tiles,&lt;br&gt;state of a tile (majority_land)" vertex="1">
+                    <mxGeometry height="130" width="290" x="460" y="925" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_psrc" parent="c1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=none;strokeColor=#333333;strokeWidth=2;" value="Protocol &lt;b&gt;PolygonSource&lt;/b&gt;&lt;br&gt;core/protocols.py&lt;br&gt;read_polygons() → list[dict]" vertex="1">
+                    <mxGeometry height="90" width="240" x="920" y="915" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_grid" parent="c1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#D5E8D4;strokeColor=#82B366;" value="&lt;b&gt;functions&lt;/b&gt;&lt;br&gt;core/grid.py, core/states.py&lt;br&gt;tile IDs, bounds, state codes" vertex="1">
+                    <mxGeometry height="90" width="240" x="920" y="1035" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_pf" parent="c1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#FFF2CC;strokeColor=#D6B656;" value="&lt;b&gt;repository&lt;/b&gt; PolygonFile&lt;br&gt;core/polygons.py&lt;br&gt;reads, checks, the polygon rule" vertex="1">
+                    <mxGeometry height="90" width="232" x="1224" y="915" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_gpkg" parent="c1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=12;fontSize=14;fillColor=#FFFFFF;strokeColor=#666666;" value="&lt;b&gt;polygon GeoPackage&lt;/b&gt;&lt;br&gt;drawn by hand&lt;br&gt;local file" vertex="1">
+                    <mxGeometry height="110" width="220" x="1600" y="905" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e10" edge="1" parent="c1" source="c_tests" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="c_plan" value="calls">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e11" edge="1" parent="c1" source="c_plan" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="c_grid" value="calls">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="605" y="1080"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="c_e12" edge="1" parent="c1" source="c_pf" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="c_psrc" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e13" edge="1" parent="c1" source="c_pf" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="c_gpkg" value="reads (GDAL)">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e14" edge="1" parent="c1" source="h7Tz3sTEX0GydovWqB0X-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;strokeColor=#999999;dashed=1;fontColor=#888888;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="c_psrc" value="read_polygons() · planned, step 5">
+                    <mxGeometry relative="1" x="0.0006" as="geometry">
+                        <mxPoint as="offset"/>
+                        <Array as="points">
+                            <mxPoint x="880" y="937"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="c_e15" edge="1" parent="c1" source="c_main" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;strokeColor=#999999;dashed=1;fontColor=#888888;exitX=0.2;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;" target="c_plan" value="plan_tiles() · planned, step 5">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="344" y="964"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="c_miss" parent="c1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=#E1D5E7;strokeColor=#9673A6;dashed=1;align=left;spacingLeft=10;verticalAlign=top;spacingTop=6;" value="&lt;b&gt;In the fetch plan, not in the flowchart&lt;/b&gt; (none built yet)&lt;br&gt;• manifest: read, tiles_to_fetch, append row (steps 5, 8)&lt;br&gt;• flight date with raw answer, required before any real fetch (step 10)&lt;br&gt;• empty share and checksum per tile (step 8)&lt;br&gt;• scratch archive by default, real archive only with --real (step 11)&lt;br&gt;• three guards: never fetch, write or rename over an existing tile" vertex="1">
+                    <mxGeometry height="140" width="760" y="1170" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_diff" parent="c1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=13;" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;Differences in short&lt;/b&gt;&lt;br&gt;1. Built: tile planning (6 files, 71 tests). Not built: everything of the image fetch.&lt;br&gt;2. No main, factory or coordinator yet; only the unit tests call the code.&lt;br&gt;3. Data passes as dictionaries (list[dict]); the flowchart uses typed objects (RawImage, GeoTIFF).&lt;br&gt;4. Protocols sit in one central file; the flowchart document defines them at the consumer.&lt;br&gt;5. The flowchart runs per bbox; the plan runs per planned tile (ID, state, sites).&lt;br&gt;6. ImageStore is new: the plan has no protocol for storing tiles yet.&lt;/font&gt;" vertex="1">
+                    <mxGeometry height="170" width="1040" x="800" y="1170" as="geometry"/>
+                </mxCell>
+                <mxCell id="h7Tz3sTEX0GydovWqB0X-5" edge="1" parent="c1" source="c_main" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;strokeColor=#999999;dashed=1;fontColor=#888888;exitX=0.36;exitY=1;exitDx=0;exitDy=0;" target="h7Tz3sTEX0GydovWqB0X-4" value="">
+                    <mxGeometry relative="1" x="0.0006" as="geometry">
+                        <mxPoint as="offset"/>
+                        <Array as="points">
+                            <mxPoint x="379" y="870"/>
+                            <mxPoint x="880" y="870"/>
+                        </Array>
+                        <mxPoint x="381" y="333" as="sourcePoint"/>
+                        <mxPoint x="920" y="937" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="h7Tz3sTEX0GydovWqB0X-4" parent="c1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=none;strokeColor=#999999;dashed=1;fontColor=#888888;" value="&lt;b&gt;coordinator&lt;/b&gt;&lt;br&gt;not built&lt;br&gt;planned: tile_fetch.py&lt;br&gt;fetch_one_tile, fetch_missing_tiles&lt;br&gt;(steps 9, 11)" vertex="1">
+                    <mxGeometry height="85" width="270" x="470" y="830" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_frame" parent="c1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#BBBBBB;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontStyle=1;fontSize=16;fontColor=#555555;" value="Roles &amp;amp; colours" vertex="1">
+                    <mxGeometry height="242" width="1840" y="1370" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_s0" parent="c1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=#FFE0C7;strokeColor=#D79B00;" value="Factory" vertex="1">
+                    <mxGeometry height="48" width="150" x="20" y="1414" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_t0" parent="c1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="builds all objects once and wires them together" vertex="1">
+                    <mxGeometry height="48" width="280" x="180" y="1414" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_s1" parent="c1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;" value="Coordinator" vertex="1">
+                    <mxGeometry height="48" width="150" x="475" y="1414" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_t1" parent="c1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="controls the order of steps; knows only protocols" vertex="1">
+                    <mxGeometry height="48" width="280" x="635" y="1414" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_s2" parent="c1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=#D5E8D4;strokeColor=#82B366;" value="Function" vertex="1">
+                    <mxGeometry height="48" width="150" x="930" y="1414" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_t2" parent="c1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="business logic: &lt;i&gt;what&lt;/i&gt; is done with the data; pure in → out" vertex="1">
+                    <mxGeometry height="48" width="280" x="1090" y="1414" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_s3" parent="c1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=#FFF2CC;strokeColor=#D6B656;" value="Adapter / repository" vertex="1">
+                    <mxGeometry height="48" width="150" x="1385" y="1414" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_t3" parent="c1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="I/O: &lt;i&gt;where and how&lt;/i&gt; data is read or written (disk, WMS)" vertex="1">
+                    <mxGeometry height="48" width="280" x="1545" y="1414" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_s4" parent="c1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=none;strokeColor=#333333;strokeWidth=2;" value="Protocol" vertex="1">
+                    <mxGeometry height="48" width="150" x="20" y="1478" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_t4" parent="c1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="contract (a type): describes methods, contains no code" vertex="1">
+                    <mxGeometry height="48" width="280" x="180" y="1478" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_s5" parent="c1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;shape=document;boundedLbl=1;size=0.2;fillColor=#FFFFFF;strokeColor=#666666;" value="Config" vertex="1">
+                    <mxGeometry height="48" width="150" x="475" y="1478" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_t5" parent="c1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="settings file" vertex="1">
+                    <mxGeometry height="48" width="280" x="635" y="1478" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_s6" parent="c1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;ellipse;fillColor=#FFFFFF;strokeColor=#666666;" value="Entry point" vertex="1">
+                    <mxGeometry height="48" width="150" x="930" y="1478" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_t6" parent="c1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="main: reads config, calls factory, starts the run" vertex="1">
+                    <mxGeometry height="48" width="280" x="1090" y="1478" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_s7" parent="c1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;ellipse;shape=cloud;fillColor=#FFFFFF;strokeColor=#666666;" value="External system" vertex="1">
+                    <mxGeometry height="48" width="150" x="1385" y="1478" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_t7" parent="c1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="e.g. WMS server" vertex="1">
+                    <mxGeometry height="48" width="280" x="1545" y="1478" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_s8" parent="c1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;shape=cylinder3;boundedLbl=1;size=8;fillColor=#FFFFFF;strokeColor=#666666;" value="Data on disk" vertex="1">
+                    <mxGeometry height="48" width="150" x="20" y="1542" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_t8" parent="c1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="GeoPackage, images, metadata.db" vertex="1">
+                    <mxGeometry height="48" width="280" x="180" y="1542" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_s9" parent="c1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=none;strokeColor=#999999;dashed=1;fontColor=#888888;" value="not built yet" vertex="1">
+                    <mxGeometry height="48" width="150" x="475" y="1542" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_t9" parent="c1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="in the flowchart, not built yet" vertex="1">
+                    <mxGeometry height="48" width="280" x="635" y="1542" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_s10" parent="c1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=#E1D5E7;strokeColor=#9673A6;dashed=1;" value="fetch plan" vertex="1">
+                    <mxGeometry height="48" width="150" x="930" y="1542" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_current_t10" parent="c1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="in the fetch plan, not in the flowchart" vertex="1">
+                    <mxGeometry height="48" width="280" x="1090" y="1542" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="flow" name="v1-architecture">
+        <mxGraphModel dx="841" dy="875" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1920" pageHeight="1000" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="e4" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#BBBBBB;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontStyle=1;fontSize=16;fontColor=#555555;" value="Phase 1 · Setup (once)" vertex="1">
+                    <mxGeometry height="214" width="1520" y="161" as="geometry"/>
+                </mxCell>
+                <mxCell id="e5" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#BBBBBB;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontStyle=1;fontSize=16;fontColor=#555555;" value="Phase 2 · Execution (per run)" vertex="1">
+                    <mxGeometry height="448" width="1520" y="421" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=40;" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;&lt;b style=&quot;&quot;&gt;Code Architecture: Roles and Their Interaction&lt;/b&gt;&lt;/font&gt;" vertex="1">
+                    <mxGeometry height="60" width="1000" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=24;" value="Factory builds once – coordinator controls every run" vertex="1">
+                    <mxGeometry height="40" width="900" y="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=13;" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;&lt;b style=&quot;&quot;&gt;Legend&lt;/b&gt;&lt;br&gt;→ solid: calls&lt;br&gt;⇢ dashed: creates&lt;br&gt;Line without arrowhead: implements protocol&lt;br&gt;Unfilled frame: protocol&lt;br&gt;①–③: order of execution&lt;/font&gt;" vertex="1">
+                    <mxGeometry height="150" width="760" x="1080" as="geometry"/>
+                </mxCell>
+                <mxCell id="e6" parent="1" style="shape=document;boundedLbl=1;size=0.2;whiteSpace=wrap;html=1;fontSize=14;fillColor=#FFFFFF;strokeColor=#666666;" value="&lt;b&gt;config&lt;/b&gt;&lt;br&gt;Settings" vertex="1">
+                    <mxGeometry height="100" width="180" x="24" y="235" as="geometry"/>
+                </mxCell>
+                <mxCell id="e7" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;fillColor=#FFFFFF;strokeColor=#666666;" value="&lt;b&gt;main&lt;/b&gt;&lt;br&gt;Entry point" vertex="1">
+                    <mxGeometry height="100" width="200" x="300" y="235" as="geometry"/>
+                </mxCell>
+                <mxCell id="e8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#FFE0C7;strokeColor=#D79B00;" value="&lt;b&gt;factory&lt;/b&gt;&lt;br&gt;create_coordinator()&lt;br&gt;creates all instances" vertex="1">
+                    <mxGeometry height="100" width="232" x="1224" y="235" as="geometry"/>
+                </mxCell>
+                <mxCell id="e9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#DAE8FC;strokeColor=#6C8EBF;" value="&lt;b&gt;coordinator&lt;/b&gt;&lt;br&gt;ImageAcquisitionCoordinator.run()&lt;br&gt;controls the order&lt;br&gt;knows only protocols" vertex="1">
+                    <mxGeometry height="150" width="290" x="460" y="605" as="geometry"/>
+                </mxCell>
+                <mxCell id="e10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=none;strokeColor=#333333;strokeWidth=2;" value="Protocol&lt;br&gt;&lt;b&gt;ImageSource&lt;/b&gt;" vertex="1">
+                    <mxGeometry height="90" width="240" x="920" y="515" as="geometry"/>
+                </mxCell>
+                <mxCell id="e11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#D5E8D4;strokeColor=#82B366;" value="&lt;b&gt;function&lt;/b&gt;&lt;br&gt;to_geotiff()&lt;br&gt;georeferences image" vertex="1">
+                    <mxGeometry height="90" width="240" x="920" y="635" as="geometry"/>
+                </mxCell>
+                <mxCell id="e12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=none;strokeColor=#333333;strokeWidth=2;" value="Protocol&lt;br&gt;&lt;b&gt;ImageStore&lt;/b&gt;" vertex="1">
+                    <mxGeometry height="90" width="240" x="920" y="755" as="geometry"/>
+                </mxCell>
+                <mxCell id="e13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#FFF2CC;strokeColor=#D6B656;" value="&lt;b&gt;adapter&lt;/b&gt;&lt;br&gt;WmsClient" vertex="1">
+                    <mxGeometry height="90" width="232" x="1224" y="515" as="geometry"/>
+                </mxCell>
+                <mxCell id="e14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#FFF2CC;strokeColor=#D6B656;" value="&lt;b&gt;repository&lt;/b&gt;&lt;br&gt;FileImageStore" vertex="1">
+                    <mxGeometry height="90" width="232" x="1224" y="755" as="geometry"/>
+                </mxCell>
+                <mxCell id="e25" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fontSize=14;fillColor=#FFFFFF;strokeColor=#666666;" value="&lt;b&gt;WMS server&lt;/b&gt;&lt;br&gt;external" vertex="1">
+                    <mxGeometry height="110" width="220" x="1600" y="505" as="geometry"/>
+                </mxCell>
+                <mxCell id="e15" edge="1" parent="1" source="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" target="e7" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e16" edge="1" parent="1" source="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" target="e8" value="calls · receives ready coordinator">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e17" edge="1" parent="1" source="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" target="e9" value="run(bbox) · per run">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e18" edge="1" parent="1" source="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" target="e10" value="① fetch(bbox) → RawImage">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e19" edge="1" parent="1" source="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" target="e11" value="② RawImage → GeoTIFF">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e20" edge="1" parent="1" source="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" target="e12" value="③ save(GeoTIFF)">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e21" edge="1" parent="1" source="e13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=1;" target="e10" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e22" edge="1" parent="1" source="e14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=1;" target="e12" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e23" edge="1" parent="1" source="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=block;endFill=1;dashed=1;" target="e13" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e24" edge="1" parent="1" source="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;dashed=1;" target="e14" value="">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1840" y="285"/>
+                            <mxPoint x="1840" y="800"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e26" edge="1" parent="1" source="e13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" target="e25" value="GetMap · HTTP">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_frame" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#BBBBBB;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontStyle=1;fontSize=16;fontColor=#555555;" value="Roles &amp;amp; colours" vertex="1">
+                    <mxGeometry height="242" width="1840" y="900" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_s0" parent="1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=#FFE0C7;strokeColor=#D79B00;" value="Factory" vertex="1">
+                    <mxGeometry height="48" width="150" x="20" y="944" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_t0" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="builds all objects once and wires them together" vertex="1">
+                    <mxGeometry height="48" width="280" x="180" y="944" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_s1" parent="1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;" value="Coordinator" vertex="1">
+                    <mxGeometry height="48" width="150" x="475" y="944" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_t1" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="controls the order of steps; knows only protocols" vertex="1">
+                    <mxGeometry height="48" width="280" x="635" y="944" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_s2" parent="1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=#D5E8D4;strokeColor=#82B366;" value="Function" vertex="1">
+                    <mxGeometry height="48" width="150" x="930" y="944" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_t2" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="business logic: &lt;i&gt;what&lt;/i&gt; is done with the data; pure in → out" vertex="1">
+                    <mxGeometry height="48" width="280" x="1090" y="944" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_s3" parent="1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=#FFF2CC;strokeColor=#D6B656;" value="Adapter / repository" vertex="1">
+                    <mxGeometry height="48" width="150" x="1385" y="944" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_t3" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="I/O: &lt;i&gt;where and how&lt;/i&gt; data is read or written (disk, WMS)" vertex="1">
+                    <mxGeometry height="48" width="280" x="1545" y="944" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_s4" parent="1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;rounded=1;fillColor=none;strokeColor=#333333;strokeWidth=2;" value="Protocol" vertex="1">
+                    <mxGeometry height="48" width="150" x="20" y="1008" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_t4" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="contract (a type): describes methods, contains no code" vertex="1">
+                    <mxGeometry height="48" width="280" x="180" y="1008" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_s5" parent="1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;shape=document;boundedLbl=1;size=0.2;fillColor=#FFFFFF;strokeColor=#666666;" value="Config" vertex="1">
+                    <mxGeometry height="48" width="150" x="475" y="1008" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_t5" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="settings file" vertex="1">
+                    <mxGeometry height="48" width="280" x="635" y="1008" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_s6" parent="1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;ellipse;fillColor=#FFFFFF;strokeColor=#666666;" value="Entry point" vertex="1">
+                    <mxGeometry height="48" width="150" x="930" y="1008" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_t6" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="main: reads config, calls factory, starts the run" vertex="1">
+                    <mxGeometry height="48" width="280" x="1090" y="1008" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_s7" parent="1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;ellipse;shape=cloud;fillColor=#FFFFFF;strokeColor=#666666;" value="External system" vertex="1">
+                    <mxGeometry height="48" width="150" x="1385" y="1008" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_t7" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="e.g. WMS server" vertex="1">
+                    <mxGeometry height="48" width="280" x="1545" y="1008" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_s8" parent="1" style="whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;shape=cylinder3;boundedLbl=1;size=8;fillColor=#FFFFFF;strokeColor=#666666;" value="Data on disk" vertex="1">
+                    <mxGeometry height="48" width="150" x="20" y="1072" as="geometry"/>
+                </mxCell>
+                <mxCell id="lg_flow_t8" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;" value="GeoPackage, images, metadata.db" vertex="1">
+                    <mxGeometry height="48" width="280" x="180" y="1072" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
