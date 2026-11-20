@@ -229,6 +229,10 @@ __marimo__/
 # --- Local only -------------------------------------------------------------
 # your real paths (template: configs/config.example.toml)
 configs/config.toml
+# credentials (WMS account and password): never committed
+/authentification/
+# log files of all modules
+/logs/
 # planning documents: local until it is decided what gets published
 planning/
 
