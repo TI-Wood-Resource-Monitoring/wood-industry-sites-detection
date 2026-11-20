@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "woodsites"
+version = "0.0.1"
+description = "Detection of wood industry sites in aerial orthophotos"
+requires-python = ">=3.12"
+# GDAL (osgeo) is not listed: it comes with the OSGeo4W / QGIS installation and
+# cannot be installed reliably with pip on Windows.
+dependencies = ["numpy"]
+
+[project.optional-dependencies]
+dev = ["pytest", "mypy"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# importlib mode: test files in different module folders may share a name
+# (e.g. tests/acquisition/test_grid.py and later tests/preparation/test_grid.py).
+addopts = "--import-mode=importlib"
+
+[tool.mypy]
+mypy_path = "src"
+packages = ["woodsites"]
+ignore_missing_imports = true

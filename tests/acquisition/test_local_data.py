@@ -1,9 +1,8 @@
 # Tests that need the project's own data on this computer.
 #
 # Run all tests from the repository folder:
-#     set PYTHONPATH=%CD%\src                      (OSGeo4W Shell on Windows)
-#     python -m unittest discover -s tests -v
-# The last line must be:  OK
+#     python -m pytest                    (OSGeo4W Shell on Windows)
+# The last line must say "passed" and nothing "failed".
 #
 # Unlike the other test files, this one reads real files: the settings file
 # and the polygon file it points to. Both are private and not part of the
@@ -16,9 +15,9 @@
 import os
 import unittest
 
-from woodsites.core import config
-from woodsites.core import polygons
-from woodsites.core import states
+from woodsites.acquisition import config
+from woodsites.acquisition import polygon_file
+from woodsites.acquisition import states
 
 # The paths the image fetch needs in the section [paths] of the settings file.
 FETCH_PATHS = ["polygons_gpkg", "archive", "archive_scratch"]
@@ -52,13 +51,13 @@ class TestLocalData(unittest.TestCase):
         if not os.path.isfile(gpkg_path):
             self.skipTest("the polygon file is not on this computer")
         try:
-            wanted = polygons.read_polygons(gpkg_path)
+            wanted = polygon_file.read_polygons(gpkg_path)
         except SystemExit as stop:
             # The message lists every faulty polygon, so it says what to correct in QGIS.
             self.fail(str(stop))
         self.assertGreater(len(wanted), 0, "the polygon file has no wanted polygon")
         for polygon in wanted:
-            self.assertIn(polygon["land"], states.STATES)
+            self.assertIn(polygon.land, states.STATES)
 
 
 if __name__ == "__main__":

@@ -1,9 +1,8 @@
-# Unit tests for src/woodsites/core/tile_plan.py.
+# Unit tests for src/woodsites/acquisition/tile_plan.py.
 #
 # Run all tests from the repository folder:
-#     set PYTHONPATH=%CD%\src                      (OSGeo4W Shell on Windows)
-#     python -m unittest discover -s tests -v
-# The last line must be:  OK
+#     python -m pytest                    (OSGeo4W Shell on Windows)
+# The last line must say "passed" and nothing "failed".
 #
 # All polygons here are invented and lie around chip column 10, chip row 20.
 # The numbers the expected results were worked out from, by hand:
@@ -22,8 +21,9 @@ import unittest
 
 from osgeo import ogr
 
-from woodsites.core import grid
-from woodsites.core import tile_plan
+from woodsites.acquisition import grid
+from woodsites.acquisition import tile_plan
+from woodsites.acquisition.domain import Polygon, Tile
 
 
 def square(minx, miny):
@@ -33,7 +33,7 @@ def square(minx, miny):
 
 def polygon(site_id, land, shape):
     """An invented polygon as a polygon source would deliver it."""
-    return {"new_id": site_id + "_L01", "site_id": site_id, "land": land, "shape": shape}
+    return Polygon(new_id=site_id + "_L01", site_id=site_id, land=land, shape=shape)
 
 
 # Shapes that lie where only one chip covers them.
@@ -135,14 +135,14 @@ class TestPlanTiles(unittest.TestCase):
         ]
         self.assertEqual(list(plan), by_hand)
         self.assertEqual(plan["f01_E0006000_N0012000"],
-                         {"a": 15, "b": 30, "land": "Hessen", "site_ids": ["S9001"]})
+                         Tile(a=15, b=30, land="Hessen", site_ids=("S9001",)))
 
     def test_across_border_gives_twelve_tiles(self):
         """A polygon in two chip columns needs tile columns 15-18, rows 30-32."""
         plan = tile_plan.plan_tiles([polygon("S9001", "Hessen", ACROSS_BORDER)])
         positions = []
         for tile_id in plan:
-            positions.append((plan[tile_id]["a"], plan[tile_id]["b"]))
+            positions.append((plan[tile_id].a, plan[tile_id].b))
         by_hand = []
         for a in (15, 16, 17, 18):
             for b in (30, 31, 32):
@@ -158,19 +158,32 @@ class TestPlanTiles(unittest.TestCase):
         ])
         self.assertEqual(len(plan), 18)
         # only under the Hessen chip (10, 20):
-        self.assertEqual(plan["f01_E0006000_N0012000"]["land"], "Hessen")
-        self.assertEqual(plan["f01_E0006000_N0012000"]["site_ids"], ["S9001"])
+        self.assertEqual(plan["f01_E0006000_N0012000"].land, "Hessen")
+        self.assertEqual(plan["f01_E0006000_N0012000"].site_ids, ("S9001",))
         # under one Hessen chip and one Bayern chip: a tie
-        self.assertEqual(plan["f01_E0006400_N0012000"]["land"], "Bayern")
-        self.assertEqual(plan["f01_E0006400_N0012000"]["site_ids"], ["S9001", "S9002"])
+        self.assertEqual(plan["f01_E0006400_N0012000"].land, "Bayern")
+        self.assertEqual(plan["f01_E0006400_N0012000"].site_ids, ("S9001", "S9002"))
         # under two Hessen chips and one Bayern chip: the majority
-        self.assertEqual(plan["f01_E0006400_N0012800"]["land"], "Hessen")
-        self.assertEqual(plan["f01_E0006400_N0012800"]["site_ids"], ["S9001", "S9002"])
+        self.assertEqual(plan["f01_E0006400_N0012800"].land, "Hessen")
+        self.assertEqual(plan["f01_E0006400_N0012800"].site_ids, ("S9001", "S9002"))
         # only under the Bayern chip (11, 20):
-        self.assertEqual(plan["f01_E0007200_N0012000"]["land"], "Bayern")
-        self.assertEqual(plan["f01_E0007200_N0012000"]["site_ids"], ["S9002"])
+        self.assertEqual(plan["f01_E0007200_N0012000"].land, "Bayern")
+        self.assertEqual(plan["f01_E0007200_N0012000"].site_ids, ("S9002",))
         # only under the Hessen chip (10, 21):
-        self.assertEqual(plan["f01_E0006000_N0013600"]["land"], "Hessen")
+        self.assertEqual(plan["f01_E0006000_N0013600"].land, "Hessen")
+
+    def test_key_is_the_tile_id(self):
+        """Every key of the plan is the id of the tile stored under it."""
+        plan = tile_plan.plan_tiles([polygon("S9001", "Hessen", ACROSS_BORDER)])
+        for tile_id, tile in plan.items():
+            self.assertEqual(tile_id, tile.tile_id)
+
+    def test_polygon_without_site(self):
+        """A polygon without a site (other sources) brings its tiles and state, but no site."""
+        no_site = Polygon(new_id="X1", land="Hessen", shape=IN_CHIP_10_20)
+        plan = tile_plan.plan_tiles([no_site])
+        self.assertEqual(len(plan), 9)
+        self.assertEqual(plan["f01_E0006000_N0012000"], Tile(a=15, b=30, land="Hessen", site_ids=()))
 
     def test_no_polygons_gives_empty_plan(self):
         """Without polygons there is nothing to fetch."""

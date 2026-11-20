@@ -1,13 +1,12 @@
-# Unit tests for src/woodsites/core/states.py.
+# Unit tests for src/woodsites/acquisition/states.py.
 #
 # Run all unit tests from the repository folder:
-#     set PYTHONPATH=%CD%\src                      (OSGeo4W Shell on Windows)
-#     python -m unittest discover -s tests -v
-# The last line must be:  OK
+#     python -m pytest                    (OSGeo4W Shell on Windows)
+# The last line must say "passed" and nothing "failed".
 
 import unittest
 
-from woodsites.core import states
+from woodsites.acquisition import states
 
 
 class TestStates(unittest.TestCase):

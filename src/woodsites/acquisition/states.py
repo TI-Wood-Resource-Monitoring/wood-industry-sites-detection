@@ -5,6 +5,17 @@ polygons, the column `land` of the manifest and the server table all use
 exactly these spellings.
 """
 
+from typing import TypedDict
+
+
+class StateInfo(TypedDict):
+    """What is known about one state. A TypedDict is a normal dictionary whose
+    keys and value types are fixed, so that the type checker can check them."""
+
+    code: str
+    native_epsg: int
+
+
 # Per state:
 #   code        - two letters. It is the name of the state's folder in the
 #                 archive (for example NI/f01_....tif).
@@ -13,7 +24,7 @@ exactly these spellings.
 #                 their images in EPSG:25833, so their server converts each
 #                 image for us, which turns it slightly. The manifest records
 #                 this per tile in the column `native_epsg`.
-STATES = {
+STATES: dict[str, StateInfo] = {
     "Baden-Württemberg":      {"code": "BW", "native_epsg": 25832},
     "Bayern":                 {"code": "BY", "native_epsg": 25832},
     "Brandenburg":            {"code": "BB", "native_epsg": 25833},

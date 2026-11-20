@@ -1,9 +1,8 @@
-# Unit tests for src/woodsites/core/protocols.py.
+# Unit tests for src/woodsites/acquisition/coordinator.py.
 #
 # Run all tests from the repository folder:
-#     set PYTHONPATH=%CD%\src                      (OSGeo4W Shell on Windows)
-#     python -m unittest discover -s tests -v
-# The last line must be:  OK
+#     python -m pytest                    (OSGeo4W Shell on Windows)
+# The last line must say "passed" and nothing "failed".
 #
 # An agreement does nothing by itself, so these tests show what it is for:
 # the real polygon file and an invented stand-in both fit it, and code that
@@ -11,8 +10,8 @@
 
 import unittest
 
-from woodsites.core import polygons
-from woodsites.core import protocols
+from woodsites.acquisition import polygon_file
+from woodsites.acquisition import coordinator
 
 
 class StandInPolygons:
@@ -29,7 +28,7 @@ class NotASource:
     """Something that does not offer read_polygons."""
 
 
-def count_polygons(source: protocols.PolygonSource) -> int:
+def count_polygons(source: coordinator.PolygonSource) -> int:
     """A small function written against the agreement: it works with any polygon source."""
     return len(source.read_polygons())
 
@@ -39,18 +38,18 @@ class TestPolygonSource(unittest.TestCase):
 
     def test_polygon_file_fits(self):
         """The class for the hand-drawn polygons offers what the agreement lists."""
-        source = polygons.PolygonFile("any_file.gpkg")      # the file is not opened here
-        self.assertIsInstance(source, protocols.PolygonSource)
+        source = polygon_file.PolygonFile("any_file.gpkg")      # the file is not opened here
+        self.assertIsInstance(source, coordinator.PolygonSource)
 
     def test_stand_in_fits_and_can_be_used(self):
         """An invented source fits too, and code written against the agreement uses it."""
         source = StandInPolygons([{"new_id": "S9001_L01"}, {"new_id": "S9001_L02"}])
-        self.assertIsInstance(source, protocols.PolygonSource)
+        self.assertIsInstance(source, coordinator.PolygonSource)
         self.assertEqual(count_polygons(source), 2)
 
     def test_something_else_does_not_fit(self):
         """A thing without read_polygons does not fit the agreement."""
-        self.assertNotIsInstance(NotASource(), protocols.PolygonSource)
+        self.assertNotIsInstance(NotASource(), coordinator.PolygonSource)
 
 
 if __name__ == "__main__":

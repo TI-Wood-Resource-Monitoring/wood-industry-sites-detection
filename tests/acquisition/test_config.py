@@ -1,9 +1,8 @@
-# Unit tests for src/woodsites/core/config.py.
+# Unit tests for src/woodsites/acquisition/config.py.
 #
 # Run all unit tests from the repository folder:
-#     set PYTHONPATH=%CD%\src                      (OSGeo4W Shell on Windows)
-#     python -m unittest discover -s tests -v
-# The last line must be:  OK
+#     python -m pytest                    (OSGeo4W Shell on Windows)
+# The last line must say "passed" and nothing "failed".
 #
 # These tests never read a real settings file. They write a small invented one
 # into a temporary folder, which is removed again after every test.
@@ -12,7 +11,7 @@ import os
 import tempfile
 import unittest
 
-from woodsites.core import config
+from woodsites.acquisition import config
 
 # A small settings file, invented for these tests.
 SMALL_CONFIG = """

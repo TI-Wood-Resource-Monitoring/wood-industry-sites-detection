@@ -1,9 +1,8 @@
-# Unit tests for src/woodsites/core/grid.py.
+# Unit tests for src/woodsites/acquisition/grid.py.
 #
 # Run all unit tests from the repository folder:
-#     set PYTHONPATH=%CD%\src                      (OSGeo4W Shell on Windows)
-#     python -m unittest discover -s tests -v
-# The last line must be:  OK
+#     python -m pytest                    (OSGeo4W Shell on Windows)
+# The last line must say "passed" and nothing "failed".
 #
 # How to read this file: every class groups the tests of one topic, and every
 # function whose name starts with "test_" is one test. A test calls a function
@@ -17,7 +16,7 @@
 import math
 import unittest
 
-from woodsites.core import grid
+from woodsites.acquisition import grid
 
 # The old-against-new comparison runs over every chip position from 0 to this
 # number on one axis. Germany lies well inside this range on both axes.

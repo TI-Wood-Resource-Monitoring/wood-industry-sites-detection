@@ -1,9 +1,8 @@
-# Unit tests for src/woodsites/core/polygons.py.
+# Unit tests for src/woodsites/acquisition/polygon_file.py.
 #
 # Run all unit tests from the repository folder:
-#     set PYTHONPATH=%CD%\src                      (OSGeo4W Shell on Windows)
-#     python -m unittest discover -s tests -v
-# The last line must be:  OK
+#     python -m pytest                    (OSGeo4W Shell on Windows)
+# The last line must say "passed" and nothing "failed".
 #
 # These tests never open a real polygon file. They build small invented ones
 # in a temporary folder, which is removed again after every test. All ids and
@@ -15,7 +14,8 @@ import unittest
 
 from osgeo import ogr, osr
 
-from woodsites.core import polygons
+from woodsites.acquisition import polygon_file
+from woodsites.acquisition.domain import Polygon
 
 osr.UseExceptions()
 
@@ -80,19 +80,19 @@ class TestPolygonIsWanted(unittest.TestCase):
 
     def test_triage_a_and_b(self):
         """Triage A and triage B are wanted."""
-        self.assertTrue(polygons.polygon_is_wanted("A", ""))
-        self.assertTrue(polygons.polygon_is_wanted("B", ""))
+        self.assertTrue(polygon_file.polygon_is_wanted("A", ""))
+        self.assertTrue(polygon_file.polygon_is_wanted("B", ""))
 
     def test_other_triage_values(self):
         """Triage C, an empty triage and a small letter are not wanted."""
-        self.assertFalse(polygons.polygon_is_wanted("C", ""))
-        self.assertFalse(polygons.polygon_is_wanted("", ""))
-        self.assertFalse(polygons.polygon_is_wanted("a", ""))
+        self.assertFalse(polygon_file.polygon_is_wanted("C", ""))
+        self.assertFalse(polygon_file.polygon_is_wanted("", ""))
+        self.assertFalse(polygon_file.polygon_is_wanted("a", ""))
 
     def test_herkunft_dop20_neu(self):
         """A polygon drawn new on the images is wanted, whatever its triage."""
-        self.assertTrue(polygons.polygon_is_wanted("", "dop20_neu"))
-        self.assertTrue(polygons.polygon_is_wanted("C", "dop20_neu"))
+        self.assertTrue(polygon_file.polygon_is_wanted("", "dop20_neu"))
+        self.assertTrue(polygon_file.polygon_is_wanted("C", "dop20_neu"))
 
 
 class TestCleanText(unittest.TestCase):
@@ -100,9 +100,9 @@ class TestCleanText(unittest.TestCase):
 
     def test_clean_text(self):
         """An empty field becomes empty text; spaces at both ends are removed."""
-        self.assertEqual(polygons.clean_text(None), "")
-        self.assertEqual(polygons.clean_text(" x "), "x")
-        self.assertEqual(polygons.clean_text(5), "5")
+        self.assertEqual(polygon_file.clean_text(None), "")
+        self.assertEqual(polygon_file.clean_text(" x "), "x")
+        self.assertEqual(polygon_file.clean_text(5), "5")
 
 
 class TestPolygonProblems(unittest.TestCase):
@@ -110,14 +110,14 @@ class TestPolygonProblems(unittest.TestCase):
 
     def test_good_polygon_has_no_problems(self):
         """A complete polygon gives an empty list."""
-        polygon = {"new_id": "S9001_L01", "site_id": "S9001", "land": "Hessen",
-                   "shape": ogr.CreateGeometryFromWkt(SQUARE)}
-        self.assertEqual(polygons.polygon_problems(polygon), [])
+        polygon = Polygon(new_id="S9001_L01", site_id="S9001", land="Hessen",
+                          shape=ogr.CreateGeometryFromWkt(SQUARE))
+        self.assertEqual(polygon_file.polygon_problems(polygon), [])
 
     def test_each_problem_is_named(self):
         """Empty id, empty site, unknown state and missing shape are all named."""
-        polygon = {"new_id": "", "site_id": "", "land": "Musterland", "shape": None}
-        problems = polygons.polygon_problems(polygon)
+        polygon = Polygon(new_id="", site_id="", land="Musterland", shape=None)
+        problems = polygon_file.polygon_problems(polygon)
         self.assertEqual(len(problems), 4)
         self.assertIn("new_id is empty", problems)
         self.assertIn("site_id is empty", problems)
@@ -142,38 +142,38 @@ class TestReadPolygons(unittest.TestCase):
     def stop_message(self, gpkg_path):
         """Call read_polygons, expect it to stop, and give back its message."""
         with self.assertRaises(SystemExit) as caught:
-            polygons.read_polygons(gpkg_path)
+            polygon_file.read_polygons(gpkg_path)
         return str(caught.exception)
 
     def test_only_wanted_polygons_come_back(self):
         """Of 8 rows, the 5 wanted ones come back, in the order of the file."""
         make_polygon_file(self.path("good.gpkg"), "dop20_polygons", 25832, ALL_FIELDS, GOOD_ROWS)
         ids = []
-        for polygon in polygons.read_polygons(self.path("good.gpkg")):
-            ids.append(polygon["new_id"])
+        for polygon in polygon_file.read_polygons(self.path("good.gpkg")):
+            ids.append(polygon.new_id)
         self.assertEqual(ids, ["S9001_L01", "S9001_L02", "S9002_N01", "S9002_N02", "S9003_L01"])
 
     def test_polygon_file_class_reads_the_same(self):
         """The class PolygonFile delivers what the function read_polygons delivers."""
         make_polygon_file(self.path("good.gpkg"), "dop20_polygons", 25832, ALL_FIELDS, GOOD_ROWS)
-        source = polygons.PolygonFile(self.path("good.gpkg"))
+        source = polygon_file.PolygonFile(self.path("good.gpkg"))
         ids = []
         for polygon in source.read_polygons():
-            ids.append(polygon["new_id"])
+            ids.append(polygon.new_id)
         self.assertEqual(ids, ["S9001_L01", "S9001_L02", "S9002_N01", "S9002_N02", "S9003_L01"])
 
     def test_spaces_are_removed(self):
         """Spaces typed by accident around a value do not change the result."""
         make_polygon_file(self.path("good.gpkg"), "dop20_polygons", 25832, ALL_FIELDS, GOOD_ROWS)
-        last = polygons.read_polygons(self.path("good.gpkg"))[-1]
-        self.assertEqual(last["new_id"], "S9003_L01")
-        self.assertEqual(last["site_id"], "S9003")
-        self.assertEqual(last["land"], "Bayern")
+        last = polygon_file.read_polygons(self.path("good.gpkg"))[-1]
+        self.assertEqual(last.new_id, "S9003_L01")
+        self.assertEqual(last.site_id, "S9003")
+        self.assertEqual(last.land, "Bayern")
 
     def test_shape_comes_back(self):
         """The shape has the size and the place it was written with."""
         make_polygon_file(self.path("good.gpkg"), "dop20_polygons", 25832, ALL_FIELDS, GOOD_ROWS)
-        shape = polygons.read_polygons(self.path("good.gpkg"))[0]["shape"]
+        shape = polygon_file.read_polygons(self.path("good.gpkg"))[0].shape
         self.assertEqual(shape.GetArea(), 10000.0)
         # GDAL gives the surrounding rectangle as (minx, maxx, miny, maxy).
         self.assertEqual(shape.GetEnvelope(), (1000.0, 1100.0, 2000.0, 2100.0))
@@ -182,7 +182,7 @@ class TestReadPolygons(unittest.TestCase):
         """An older file without the field herkunft is still read."""
         make_polygon_file(self.path("old.gpkg"), "dop20_polygons", 25832,
                           ["new_id", "site_id", "land", "triage"], TWO_ROWS)
-        self.assertEqual(len(polygons.read_polygons(self.path("old.gpkg"))), 1)
+        self.assertEqual(len(polygon_file.read_polygons(self.path("old.gpkg"))), 1)
 
     def test_faulty_polygons_are_all_named(self):
         """Three faulty wanted polygons stop the run with ONE message naming all three."""

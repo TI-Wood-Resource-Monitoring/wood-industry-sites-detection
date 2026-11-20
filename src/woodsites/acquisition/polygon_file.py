@@ -5,7 +5,7 @@ one polygon drawn by hand, with these fields among others:
 
   new_id   - name of the polygon
   site_id  - the site it belongs to
-  land     - federal state, spelled as in core/states.py
+  land     - federal state, spelled as in acquisition/states.py
   triage   - result of the comparison with the aerial images: A, B or C
   herkunft - where the polygon comes from; "dop20_neu" = drawn new on the images
 
@@ -19,8 +19,9 @@ import os
 
 from osgeo import ogr
 
-from woodsites.core import grid
-from woodsites.core import states
+from woodsites.acquisition import grid
+from woodsites.acquisition import states
+from woodsites.acquisition.domain import Polygon
 
 # Without this line GDAL reports many problems only by handing back "nothing",
 # and the mistake shows up much later at a different place. With it, GDAL
@@ -114,33 +115,33 @@ def open_polygon_layer(gpkg_path: str) -> tuple[ogr.DataSource, ogr.Layer]:
     return dataset, layer
 
 
-def polygon_problems(polygon: dict) -> list[str]:
+def polygon_problems(polygon: Polygon) -> list[str]:
     """Say what is wrong with one wanted polygon.
 
-    Input:  polygon - dictionary with new_id, site_id, land, shape.
+    Input:  polygon - one Polygon read from the file.
     Output: list of short texts, one per problem. An empty list means the
             polygon can be used.
+
+    In the project's own file every polygon must have a site, although a
+    Polygon in general may come without one (domain.py).
     """
     problems = []
-    if polygon["new_id"] == "":
+    if polygon.new_id == "":
         problems.append("new_id is empty")
-    if polygon["site_id"] == "":
+    if polygon.site_id == "":
         problems.append("site_id is empty")
-    land = polygon["land"]
-    if land not in states.STATES:
-        problems.append(f"land '{land}' is not one of the twelve states")
-    if polygon["shape"] is None or polygon["shape"].IsEmpty():
+    if polygon.land not in states.STATES:
+        problems.append(f"land '{polygon.land}' is not one of the twelve states")
+    if polygon.shape is None or polygon.shape.IsEmpty():
         problems.append("no shape")
     return problems
 
 
-def read_polygons(gpkg_path: str) -> list[dict]:
+def read_polygons(gpkg_path: str) -> list[Polygon]:
     """Read all polygons that count.
 
     Input:  gpkg_path - path of the polygon file.
-    Output: list of dictionaries, one per wanted polygon, in the order of the
-            file. Each has: new_id, site_id, land (all text) and shape (the
-            outline as a GDAL geometry).
+    Output: list of Polygon, one per wanted polygon, in the order of the file.
 
     Polygons that do not count are skipped without looking at them further.
     If a wanted polygon has a problem, the run stops with ONE message that
@@ -162,16 +163,15 @@ def read_polygons(gpkg_path: str) -> list[dict]:
             # Take a copy. The original belongs to the row and disappears
             # when the loop moves on to the next row.
             shape = shape.Clone()
-        polygon = {
-            "new_id": clean_text(feature["new_id"]),
-            "site_id": clean_text(feature["site_id"]),
-            "land": clean_text(feature["land"]),
-            "shape": shape,
-        }
+        polygon = Polygon(
+            new_id=clean_text(feature["new_id"]),
+            site_id=clean_text(feature["site_id"]),
+            land=clean_text(feature["land"]),
+            shape=shape,
+        )
         problems = polygon_problems(polygon)
         if problems:
-            new_id = polygon["new_id"]
-            faulty.append(f"  row {feature.GetFID()} (new_id '{new_id}'): " + ", ".join(problems))
+            faulty.append(f"  row {feature.GetFID()} (new_id '{polygon.new_id}'): " + ", ".join(problems))
         else:
             wanted.append(polygon)
     if faulty:
@@ -188,7 +188,7 @@ class PolygonFile:
     """The project's own hand-drawn polygons as a polygon source.
 
     This class is the first version of the agreement PolygonSource in
-    core/protocols.py. It is only a thin wrapper: it remembers which file to
+    acquisition/coordinator.py. It is only a thin wrapper: it remembers which file to
     read, and the work is done by the function read_polygons above.
 
     Use:  source = PolygonFile("path/to/polygons.gpkg")
@@ -199,7 +199,7 @@ class PolygonFile:
         """Remember the path of the polygon file. The file is not opened yet."""
         self.gpkg_path = gpkg_path
 
-    def read_polygons(self) -> list[dict]:
+    def read_polygons(self) -> list[Polygon]:
         """Deliver all polygons that count (see PolygonSource for the output)."""
         # Inside a class, a plain name like read_polygons means the function
         # at the top level of this file, not this method of the same name.
