@@ -182,3 +182,25 @@ def read_polygons(gpkg_path: str) -> list[dict]:
     # The file is closed by itself when this function ends, because then
     # nothing refers to `dataset` any more.
     return wanted
+
+
+class PolygonFile:
+    """The project's own hand-drawn polygons as a polygon source.
+
+    This class is the first version of the agreement PolygonSource in
+    core/protocols.py. It is only a thin wrapper: it remembers which file to
+    read, and the work is done by the function read_polygons above.
+
+    Use:  source = PolygonFile("path/to/polygons.gpkg")
+          polygons = source.read_polygons()
+    """
+
+    def __init__(self, gpkg_path: str) -> None:
+        """Remember the path of the polygon file. The file is not opened yet."""
+        self.gpkg_path = gpkg_path
+
+    def read_polygons(self) -> list[dict]:
+        """Deliver all polygons that count (see PolygonSource for the output)."""
+        # Inside a class, a plain name like read_polygons means the function
+        # at the top level of this file, not this method of the same name.
+        return read_polygons(self.gpkg_path)

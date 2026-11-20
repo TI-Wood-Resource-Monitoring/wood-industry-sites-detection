@@ -153,6 +153,15 @@ class TestReadPolygons(unittest.TestCase):
             ids.append(polygon["new_id"])
         self.assertEqual(ids, ["S9001_L01", "S9001_L02", "S9002_N01", "S9002_N02", "S9003_L01"])
 
+    def test_polygon_file_class_reads_the_same(self):
+        """The class PolygonFile delivers what the function read_polygons delivers."""
+        make_polygon_file(self.path("good.gpkg"), "dop20_polygons", 25832, ALL_FIELDS, GOOD_ROWS)
+        source = polygons.PolygonFile(self.path("good.gpkg"))
+        ids = []
+        for polygon in source.read_polygons():
+            ids.append(polygon["new_id"])
+        self.assertEqual(ids, ["S9001_L01", "S9001_L02", "S9002_N01", "S9002_N02", "S9003_L01"])
+
     def test_spaces_are_removed(self):
         """Spaces typed by accident around a value do not change the result."""
         make_polygon_file(self.path("good.gpkg"), "dop20_polygons", 25832, ALL_FIELDS, GOOD_ROWS)
